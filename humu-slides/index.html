@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Humu Slides – AI PPT Maker</title>
+  <meta name="description" content="Type your topic. Get your slides — instantly."/>
+  <link rel="icon" href="assets/logo.svg">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- PptxGenJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs"></script>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="sticky top-0 z-10 bg-white/80 backdrop-blur border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="assets/logo.svg" class="w-8 h-8" alt="Humu logo"/>
+        <h1 class="text-xl font-bold">Humu Slides</h1>
+      </div>
+      <nav class="text-sm">
+        <a href="#how" class="px-3 py-2 rounded hover:bg-slate-100">How it works</a>
+        <a href="README.html" class="px-3 py-2 rounded hover:bg-slate-100">Docs</a>
+        <a href="https://github.com/" target="_blank" class="px-3 py-2 rounded hover:bg-slate-100">Star on GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Hero -->
+    <section class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="text-3xl md:text-5xl font-extrabold leading-tight">Type your topic.<br/>Get your slides — instantly.</h2>
+        <p class="mt-4 text-slate-600">Generate clean, editable PowerPoint decks from a single topic. Choose themes, tweak the outline, and download as <code>.pptx</code>.</p>
+        <div class="mt-6 flex gap-3 text-sm">
+          <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700">No backend needed</span>
+          <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700">PptxGenJS</span>
+          <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700">Tailwind</span>
+        </div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <video class="w-full rounded" autoplay muted loop playsinline>
+          <source src="assets/preview.mp4" type="video/mp4"/>
+        </video>
+        <p class="text-xs text-slate-500 mt-2">Preview: generate → edit → download.</p>
+      </div>
+    </section>
+
+    <!-- Generator Card -->
+    <section class="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 class="text-lg font-bold">Create slides</h3>
+      <div class="mt-4 grid md:grid-cols-4 gap-4 items-end">
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium">Topic</label>
+          <input id="topic" type="text" placeholder="e.g., Internet of Things (IoT)" class="mt-1 w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Number of slides</label>
+          <input id="slidesCount" type="number" min="3" max="20" value="6" class="mt-1 w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Theme</label>
+          <select id="theme" class="mt-1 w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500">
+            <option value="modernBlue">Modern Blue</option>
+            <option value="minimalDark">Minimal Dark</option>
+            <option value="mint">Mint Fresh</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="btnGenerate" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">Generate Outline</button>
+        <button id="btnDownload" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold disabled:opacity-50" disabled>Download PPTX</button>
+      </div>
+
+      <!-- Preview / Editor -->
+      <div id="editor" class="mt-6 grid md:grid-cols-3 gap-4">
+        <div class="md:col-span-1">
+          <h4 class="font-semibold mb-2">Slides</h4>
+          <ul id="slidesList" class="space-y-2"></ul>
+        </div>
+        <div class="md:col-span-2">
+          <h4 class="font-semibold mb-2">Edit Current Slide</h4>
+          <div class="rounded-xl border border-slate-200 p-3">
+            <label class="text-sm font-medium">Title</label>
+            <input id="slideTitle" class="mt-1 w-full rounded-xl border-slate-300" />
+            <label class="mt-3 block text-sm font-medium">Bullet points (one per line)</label>
+            <textarea id="slideBullets" rows="8" class="mt-1 w-full rounded-xl border-slate-300"></textarea>
+            <div class="mt-3 flex gap-3">
+              <button id="btnSaveSlide" class="px-3 py-2 rounded-xl bg-slate-900 text-white">Save changes</button>
+              <button id="btnAddSlide" class="px-3 py-2 rounded-xl bg-slate-100">+ Add slide</button>
+              <button id="btnDeleteSlide" class="px-3 py-2 rounded-xl bg-rose-100 text-rose-700">Delete slide</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="mt-12">
+      <h3 class="text-xl font-bold">How it works</h3>
+      <ol class="mt-3 list-decimal pl-6 text-slate-700 space-y-2">
+        <li>Enter a topic, number of slides, and choose a theme.</li>
+        <li>Click <b>Generate Outline</b> to auto-create slide titles & bullets.</li>
+        <li>Click any slide to edit its content. Add or remove slides as needed.</li>
+        <li>Click <b>Download PPTX</b> to get a PowerPoint file you can open in MS PowerPoint, Keynote, or Google Slides.</li>
+      </ol>
+      <p class="text-sm text-slate-500 mt-4">Optional: Integrate your own AI API endpoint in <code>app.js</code> (see README) to generate richer content.</p>
+    </section>
+  </main>
+
+  <footer class="mt-16 border-t border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-slate-500 flex flex-wrap items-center justify-between gap-2">
+      <span>© <span id="year"></span> Humu Slides</span>
+      <a href="README.html" class="hover:text-slate-700">Documentation</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
